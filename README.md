@@ -23,4 +23,5 @@ Card numbers are generated based on the criteria defined here:
 ## Donations
 
 https://paypal.me/KurtisLoVerde/5
+
 Thank you for your support!
