@@ -20,6 +20,7 @@ Card numbers are generated based on the criteria defined here:
 * Future-proof:  generate numbers based on your own criteria, even if the library doesn't have knowledge of the latest card number formats
 
 
-## Thanks
+## Donations
 
-Do you like this library? Want to toss a few bucks my way to say thanks? I accept donations at https://paypal.me/KurtisLoVerde/5.  Thank you for your support!
+https://paypal.me/KurtisLoVerde/5
+Thank you for your support!
