@@ -1,0 +1,24 @@
+apply plugin: "eclipse"   // Run 'gradle eclipse' to rebuild .classpath for other systems
+
+apply from: buildScriptsDir + "/build_java_lib.gradle"
+//apply from: publishScriptsDir + "/publish.gradle"
+
+dependencies {
+   testCompile "junit:junit:4.12"
+}
+
+task release( type : Zip ) {
+   dependsOn jars
+
+   if( builtByName == null || builtByName.trim().isEmpty() ) {
+      throw new GradleException( "Empty builtByName in gradle.properties" );
+   }
+
+   from( "/build/libs" )
+   include "*.jar"
+
+   from( "/" )
+   include "CHANGELOG.md"
+   include "LICENSE"
+   include "README.md"
+}
