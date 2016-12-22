@@ -15,7 +15,7 @@ Card numbers are generated based on the criteria defined here:
 ## Features
 
 * Supports generation of American Express, VISA, MasterCard and Discover
-* Easily extendible to support any type of payment card which uses Luhn validation.  All you need to do is add a member to the CardType enumeration.
+* Easily extensible to support any type of payment card which uses Luhn validation.  All you need to do is add a member to the CardType enumeration.
 * Numerous criteria for generating numbers, including by type, quantity, length and prefix
 * Future-proof:  generate numbers based on your own criteria, even if the library doesn't have knowledge of the latest card number formats
 
