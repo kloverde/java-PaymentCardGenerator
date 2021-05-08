@@ -20,6 +20,15 @@ Card numbers are generated based on the criteria defined here:
 * Future-proof:  generate numbers based on your own criteria, even if the library doesn't have knowledge of the latest card number formats
 
 
+## Building
+
+This project is known to build on Gradle 7.0.
+
+1.  Get [BuildScripts](https://github.com/kloverde/BuildScripts)
+2.  Run `gradle build`
+3.  Optionally, you can publish locally using `gradle publishtomavenlocal`
+
+
 ## Donations
 
 https://paypal.me/KurtisLoVerde/5
