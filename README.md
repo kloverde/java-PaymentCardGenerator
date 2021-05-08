@@ -25,8 +25,9 @@ Card numbers are generated based on the criteria defined here:
 This project is known to build on Gradle 7.0.
 
 1.  Get [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  Run `gradle build`
-3.  Optionally, you can publish locally using `gradle publishtomavenlocal`
+2.  Provide a value for `builtBy` in gradle.properties
+3.  Run `gradle build`
+4.  Optionally, you can publish locally using `gradle publishtomavenlocal`
 
 
 ## Donations
