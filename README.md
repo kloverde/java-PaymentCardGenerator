@@ -1,5 +1,5 @@
-PaymentCardGenerator v1.0
-=========================
+PaymentCardGenerator v1.0.1
+===========================
 
 See LICENSE for this software's licensing terms.
 

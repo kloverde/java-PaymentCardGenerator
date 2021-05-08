@@ -135,12 +135,12 @@ public class PaymentCardGeneratorTest {
       final CardType cardType = CardType.DISCOVER;
       final List<String> cardNums = generator.generateListByCardType( HOW_MANY_OF_EACH, cardType );
 
-      assertEquals( HOW_MANY_OF_EACH, cardNums.size() );
-
       generateListByCardType_validate( cardType, cardNums );
    }
 
    private void generateListByCardType_validate( final CardType cardType, final List<String> cards ) {
+      assertEquals( HOW_MANY_OF_EACH, cards.size() );
+
       for( final String cardNum : cards ) {
          validateCardNumber( cardType, cardNum );
       }
