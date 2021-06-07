@@ -28,10 +28,3 @@ This project is known to build on Gradle 7.0.
 2.  Provide a value for `builtBy` in gradle.properties
 3.  Run `gradle build`
 4.  Optionally, you can publish locally using `gradle publishtomavenlocal`
-
-
-## Donations
-
-https://paypal.me/KurtisLoVerde/5
-
-Thank you for your support!
