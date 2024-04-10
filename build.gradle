@@ -6,7 +6,7 @@ buildscript {
 
 plugins {
    id("java")
-   id("com.github.spotbugs") version "6.0.9"
+   id("com.github.spotbugs") version "6.0.10"
    id("maven-publish")
 }
 
@@ -38,6 +38,14 @@ def includeManifest = {
 java {
    withSourcesJar()
    withJavadocJar()
+}
+
+tasks.spotbugsMain {
+   reports.create("html") {
+      required = true
+      outputLocation = file("${project.layout.buildDirectory.get()}/reports/spotbugs.html")
+      setStylesheet("fancy-hist.xsl")
+   }
 }
 
 jar {
