@@ -33,6 +33,8 @@
 
 package org.loverde.paymentcard;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -88,10 +90,12 @@ public enum CardType {
         this.lengths = lengths;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Spotbugs doesn't know that they're unmodifiable")
     public Set<Long> getPrefixes() {
         return prefixes;
     }
 
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Spotbugs doesn't know that they're unmodifiable")
     public Set<Integer> getLengths() {
         return lengths;
     }

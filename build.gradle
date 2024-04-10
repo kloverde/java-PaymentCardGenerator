@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+   implementation "com.github.spotbugs:spotbugs-annotations:4.8.4"
+
    testImplementation platform("org.junit:junit-bom:5.10.2")
    testImplementation "org.junit.jupiter:junit-jupiter"
    testImplementation "org.mockito:mockito-junit-jupiter:5.11.0"
