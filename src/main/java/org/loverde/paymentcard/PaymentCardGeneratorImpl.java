@@ -34,21 +34,28 @@
 package org.loverde.paymentcard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.loverde.paymentcard.internal.Objects.failIf;
+import static org.loverde.paymentcard.internal.Objects.randomItemFromSet;
 
 
 /**
  * <p>
- *    This software aids in testing payment card processing systems by generating random payment card
- *    numbers which are mathematically valid, so that you don't have to use an actual card.
- *
- *    This class generates payment card numbers based on the criteria defined here:
+ * This software aids in testing payment card processing systems by generating random payment card
+ * numbers which are mathematically valid, so that you don't have to use an actual card.
+ * <p>
+ * This class generates payment card numbers based on the criteria defined here:
  * </p>
  *
  * <ul>
@@ -73,172 +80,131 @@ import java.util.Set;
  */
 public class PaymentCardGeneratorImpl implements PaymentCardGenerator {
 
-   @Override
-   public String generateByCardType( final CardType cardType ) {
-      if( cardType == null ) throw new IllegalArgumentException( "Card type is null" );
+    @Override
+    public String generateByCardType(final CardType cardType) {
+        failIf(cardType == null, () -> "Card type is null");
+        return generateCardNumber(cardType);
+    }
 
-      return generateCardNumber( cardType );
-   }
+    @Override
+    public List<String> generateListByCardType(final int howMany, final CardType cardType) {
+        failIf(howMany <= 0, () -> "How many must be greater than zero");
+        failIf(cardType == null, () -> "Card type is null");
 
-   @Override
-   public List<String> generateListByCardType( final int howMany, final CardType cardType ) {
-      if( howMany <= 0 ) throw new IllegalArgumentException( "How many must be greater than zero" );
-      if( cardType == null ) throw new IllegalArgumentException( "Card type is null" );
+        return IntStream.range(0, howMany).mapToObj(i -> generateCardNumber(cardType)).collect(Collectors.toList());
+    }
 
-      final List<String> cardNums = new ArrayList<>( howMany );
+    @Override
+    public Map<CardType, List<String>> generateMapByCardTypes(final int howManyOfEach, final CardType... cardTypes) {
+        failIf(howManyOfEach <= 0, () -> "How many of each must be greater than zero");
+        failIf(cardTypes == null || cardTypes.length < 1, () -> "Card types is null or empty");
 
-      for( int i = 0; i < howMany; i++ ) {
-         cardNums.add( generateCardNumber(cardType) );
-      }
+        final Map<CardType, List<String>> cardNums = new HashMap<>(cardTypes.length);
 
-      return cardNums;
-   }
+        removeVarargDuplicates(cardTypes).forEach(cardType -> cardNums.put(cardType, generateListByCardType(howManyOfEach, cardType)));
 
-   @Override
-   public Map<CardType, List<String>> generateMapByCardTypes( final int howManyOfEach, final CardType ... cardTypes ) {
-      if( howManyOfEach <= 0 ) throw new IllegalArgumentException( "How many of each must be greater than zero" );
-      if( cardTypes == null || cardTypes.length < 1 ) throw new IllegalArgumentException( "Card types is null or empty" );
+        return cardNums;
+    }
 
-      final Set<CardType> condensedCardTypes = removeVarargDuplicates( cardTypes );
-      final Map<CardType, List<String>> cardNums = new HashMap<>( cardTypes.length );
+    @Override
+    public Map<Long, List<String>> generateByPrefix(final int howManyOfEachPrefix, final Set<Integer> lengths, final Set<Long> prefixes) {
+        failIf(howManyOfEachPrefix <= 0, () -> "How many of each must be greater than zero");
+        failIf(lengths == null || lengths.isEmpty(), () -> "No lengths were specified");
+        failIf(prefixes == null || prefixes.isEmpty(), () -> "No prefixes were specified");
 
-      for( final CardType cardType : condensedCardTypes ) {
-         cardNums.put( cardType, generateListByCardType(howManyOfEach, cardType) );
-      }
+        for (final Integer length : lengths) {
+            failIf(length == null || length < 2, () -> "Invalid length: " + length);
 
-      return cardNums;
-   }
-
-   @Override
-   public Map<Long, List<String>> generateByPrefix( final int howManyOfEachPrefix, final List<Integer> lengths, final Set<Long> prefixes) {
-      final Map<Long, List<String>> cardNums;
-      final Random random;
-
-      if( howManyOfEachPrefix <= 0 ) throw new IllegalArgumentException( "How many of each must be greater than zero" );
-      if( lengths == null || lengths.size() == 0 ) throw new IllegalArgumentException( "No lengths were specified" );
-      if( prefixes == null || prefixes.size() == 0 ) throw new IllegalArgumentException( "No prefixes were specified" );
-
-      for( final Integer length : lengths ) {
-         if( length == null || length < 2 ) throw new IllegalArgumentException( "Invalid length: " + length );
-
-         for( final Long prefix : prefixes ) {
-            if( prefix.toString().length() > length ) throw new IllegalArgumentException( String.format("Prefix (%s) is longer than length (%d)", prefix.toString(), length) );
-            if( prefix < 1 ) throw new IllegalArgumentException( String.format("Prefix (%s):  prefixes must be positive numbers", prefix.toString()) );
-         }
-      }
-
-      cardNums = new HashMap<>( prefixes.size() );
-      random = new Random();
-
-      for( final Long prefix : prefixes ) {
-         final List<String> cardNumsForPrefix = new ArrayList<>( howManyOfEachPrefix );
-
-         for( int i = 0; i < howManyOfEachPrefix; i++ ) {
-            cardNumsForPrefix.add( generateCardNumber(prefix, lengths.get(random.nextInt(lengths.size()))) );
-         }
-
-         cardNums.put( prefix, cardNumsForPrefix );
-      }
-
-      return cardNums;
-   }
-
-   @Override
-   public boolean passesLuhnCheck( final String num ) {
-      if( num == null || num.isEmpty() ) throw new IllegalArgumentException( "Number is null or empty" );
-
-      final int sum = calculateLuhnSum( num, true );
-      final int checkDigit = calculateCheckDigit( sum );
-
-      return (sum + checkDigit) % 10 == 0 && Integer.parseInt( num.substring(num.length() - 1) ) == checkDigit;
-   }
-
-   private static String generateCardNumber( final CardType cardType ) {
-      final String cardNum = generateCardNumber( randomFromSet(cardType.getPrefixes()),
-                                                 cardType.getLengths().get(new Random().nextInt(cardType.getLengths().size())) );
-      return cardNum;
-   }
-
-   private static String generateCardNumber( final Long prefix, final int length ) {
-      final StringBuffer num = new StringBuffer( prefix.toString() );
-
-      final int howManyMore = length - num.toString().length() - 1;
-      final Random random = new Random();
-
-      for( int i = 0; i < howManyMore; i++ ) {
-         num.append( Integer.valueOf(random.nextInt(9)) );
-      }
-
-      num.append( calculateCheckDigit(num.toString()) );
-
-      return num.toString();
-   }
-
-   private static int calculateCheckDigit( final String str ) {
-      final int sum = calculateLuhnSum( str, false );
-      final int checkDigit = calculateCheckDigit( sum );
-
-      return checkDigit;
-   }
-
-   private static int calculateCheckDigit( final int luhnSum ) {
-      final int checkDigit = (luhnSum * 9) % 10;
-      return checkDigit;
-   }
-
-   private static int calculateLuhnSum( final String str, final boolean hasCheckDigit ) {
-      final int luhnNums[] = new int[str.length()];
-      final int start = str.length() - (hasCheckDigit ? 2 : 1);
-      int sum = 0;
-
-      boolean doubleMe = true;
-
-      for( int i = start; i >= 0; i-- ) {
-         final int num = Integer.parseInt( str.substring(i, i + 1) );
-
-         if( doubleMe ) {
-            int x2 = num * 2;
-            luhnNums[i] = x2 > 9 ? x2 - 9 : x2;
-         } else {
-            luhnNums[i] = num;
-         }
-
-         sum += luhnNums[i];
-         doubleMe = !doubleMe;
-      }
-
-      return sum;
-   }
-
-   @SafeVarargs
-   private static <T> Set<T> removeVarargDuplicates( final T ... stuff ) {
-      final Set<T> set = new HashSet<>();
-
-      if( stuff != null ) {
-         for( final T cardType : stuff ) {
-            if( cardType != null ) {
-               set.add( cardType );
+            for (final Long prefix : prefixes) {
+                failIf(prefix.toString().length() > length, () -> "Prefix (%s) is longer than length (%d)".formatted(prefix.toString(), length));
+                failIf(prefix < 1, () -> "Prefix (%s):  prefixes must be positive numbers".formatted(prefix.toString()));
             }
-         }
-      }
+        }
 
-      return set;
-   }
+        final Map<Long, List<String>> cardNums = new HashMap<>(prefixes.size());
 
-   private static <T> T randomFromSet( final Set<T> set ) {
-      T item = null;
-      int random;
+        for (final Long prefix : prefixes) {
+            final List<String> cardNumsForPrefix = new ArrayList<>(howManyOfEachPrefix);
 
-      if( set == null || set.size() < 1 ) throw new IllegalArgumentException( "Set is null or empty" );
+            for (int i = 0; i < howManyOfEachPrefix; i++) {
+                cardNumsForPrefix.add(generateCardNumber(prefix, randomItemFromSet(lengths)));
+            }
 
-      random = new Random().nextInt( set.size() );
+            cardNums.put(prefix, cardNumsForPrefix);
+        }
 
-      final Iterator<T> iterator = set.iterator();
+        return cardNums;
+    }
 
-      for( int i = 0; i <= random; i++ ) {
-         item = iterator.next();
-      }
+    @Override
+    public boolean passesLuhnCheck(final String num) {
+        failIf(num == null || num.isEmpty(), () -> "Number is null or empty");
 
-      return item;
-   }
+        final int sum = calculateLuhnSum(num, true);
+        final int checkDigit = calculateCheckDigit(sum);
+
+        return (sum + checkDigit) % 10 == 0 && Integer.parseInt(num.substring(num.length() - 1)) == checkDigit;
+    }
+
+    private static String generateCardNumber(final CardType cardType) {
+        return generateCardNumber(
+            randomItemFromSet(cardType.getPrefixes()),
+            randomItemFromSet(cardType.getLengths()));
+    }
+
+    private static String generateCardNumber(final Long prefix, final int length) {
+        final StringBuilder num = new StringBuilder(prefix.toString());
+
+        final int howManyMore = length - num.toString().length() - 1;
+        final Random random = ThreadLocalRandom.current();
+
+        for (int i = 0; i < howManyMore; i++) {
+            num.append(Integer.valueOf(random.nextInt(9)));
+        }
+
+        num.append(calculateCheckDigit(num.toString()));
+
+        return num.toString();
+    }
+
+    private static int calculateCheckDigit(final String str) {
+        final int sum = calculateLuhnSum(str, false);
+        return calculateCheckDigit(sum);
+    }
+
+    private static int calculateCheckDigit(final int luhnSum) {
+        return (luhnSum * 9) % 10;
+    }
+
+    private static int calculateLuhnSum(final String str, final boolean hasCheckDigit) {
+        final int[] luhnNums = new int[str.length()];
+        final int start = str.length() - (hasCheckDigit ? 2 : 1);
+        int sum = 0;
+
+        boolean doubleMe = true;
+
+        for (int i = start; i >= 0; i--) {
+            final int num = Integer.parseInt(str.substring(i, i + 1));
+
+            if (doubleMe) {
+                int x2 = num * 2;
+                luhnNums[i] = x2 > 9 ? x2 - 9 : x2;
+            } else {
+                luhnNums[i] = num;
+            }
+
+            sum += luhnNums[i];
+            doubleMe = !doubleMe;
+        }
+
+        return sum;
+    }
+
+    @SafeVarargs
+    private static <T> Set<T> removeVarargDuplicates(final T... stuff) {
+        return Stream.ofNullable(stuff)
+            .flatMap(Arrays::stream)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+    }
 }

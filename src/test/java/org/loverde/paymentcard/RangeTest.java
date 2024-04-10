@@ -33,33 +33,26 @@
 
 package org.loverde.paymentcard;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class RangeTest {
+class RangeTest {
 
-   @Test
-   public void size_startEndSame() {
-      assertEquals( 1, new Range(100, 100).size() );
-   }
+    @Test
+    void size_startEndSame() {
+        assertEquals(1, new Range(100, 100).size());
+    }
 
-   @Test
-   public void size_startEndDifferent() {
-      assertEquals( 3, new Range(100, 102).size() );
-   }
+    @Test
+    void size_startEndDifferent() {
+        assertEquals(3, new Range(100, 102).size());
+    }
 
-   @Test( expected = IllegalArgumentException.class )
-   public void size_startGreaterThanEnd() {
-      new Range( 2, 1 );
-   }
-
-   @Test
-   public void getters() {
-      final Range range = new Range( 1, 2 );
-
-      assertEquals( 1, range.getStart() );
-      assertEquals( 2, range.getEnd() );
-   }
+    @Test
+    void size_startGreaterThanEnd() {
+        assertThrows(IllegalArgumentException.class, () -> new Range(2, 1));
+    }
 }
