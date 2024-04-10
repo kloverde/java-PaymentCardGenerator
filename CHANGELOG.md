@@ -1,4 +1,4 @@
-# 2.0.0 (April ?, 2024)
+# 2.0.0 (April 10, 2024)
 
 * Retargeted at Java 17 + Gradle 8
 * No more reliance on the external BuildScripts repository to build this project
