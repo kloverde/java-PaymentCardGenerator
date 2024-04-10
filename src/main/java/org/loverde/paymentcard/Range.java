@@ -34,26 +34,16 @@
 package org.loverde.paymentcard;
 
 
-public class Range {
-   private long start,
-                end;
+import static org.loverde.paymentcard.internal.Objects.failIf;
 
-   public Range( final long start, final long end ) {
-      if( start > end ) throw new IllegalArgumentException( "Start cannot be greater than end" );
 
-      this.start = start;
-      this.end = end;
-   }
+public record Range (long start, long end) {
 
-   public long getStart() {
-      return start;
-   }
+    public Range {
+        failIf(start > end, () -> "Start cannot be greater than end");
+    }
 
-   public long getEnd() {
-      return end;
-   }
-
-   public long size() {
-      return Math.abs( getEnd() - getStart() ) + 1;
-   }
+    public long size() {
+        return Math.abs(end() - start()) + 1;
+    }
 }

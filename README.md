@@ -9,7 +9,7 @@ It generates random payment card numbers so that you don't have to use an actual
 Card numbers are generated based on the criteria defined here:
 
 * https://en.wikipedia.org/wiki/Luhn_algorithm
-* https://en.wikipedia.org/wiki/Payment_card_number (as of December, 2016)
+* https://en.wikipedia.org/wiki/Payment_card_number (as of April 2024)
 
 
 ## Features
@@ -20,11 +20,21 @@ Card numbers are generated based on the criteria defined here:
 * Future-proof:  generate numbers based on your own criteria, even if the library doesn't have knowledge of the latest card number formats
 
 
-## Building
+## Build Tasks
 
-This project is known to build on Gradle 7.0.
+This project is known to build on Gradle 8.4.
 
-1.  Get [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  Provide a value for `builtBy` in gradle.properties
-3.  Run `gradle build`
-4.  Optionally, you can publish locally using `gradle publishtomavenlocal`
+| task                | purpose                                      |
+|---------------------|----------------------------------------------|
+| build               | Builds the project                           |
+| check               | Runs the tests and code quality checks       |
+| clean               | Removes the `build` directory                |
+| jars                | Builds the source, javadoc and binary jars   |
+| publishToMavenLocal | Published the jars to your local Maven cache |
+
+
+## Donations
+
+https://paypal.me/KurtisLoVerde/5
+
+Thank you for your support!

@@ -1,6 +1,84 @@
-apply from: buildScriptsDir + "/build_java_lib.gradle"
+buildscript {
+   repositories {
+      mavenCentral()
+   }
+}
 
+plugins {
+   id("java")
+   id("com.github.spotbugs") version "6.0.10"
+   id("maven-publish")
+}
+
+sourceCompatibility = javaSourceCompatibility
+targetCompatibility = javaTargetCompatibility
+
+repositories {
+   mavenCentral()
+}
 
 dependencies {
-   testImplementation "junit:junit:4.12"
+   implementation "com.github.spotbugs:spotbugs-annotations:4.8.4"
+
+   testImplementation platform("org.junit:junit-bom:5.10.2")
+   testImplementation "org.junit.jupiter:junit-jupiter"
+   testImplementation "org.mockito:mockito-junit-jupiter:5.11.0"
+   testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
+
+def includeManifest = {
+   manifest {
+      attributes "Specification-Title": rootProject.name,
+                 "Implementation-Version": version,
+                 "Built-Date": new Date(),
+                 "Built-JDK": System.getProperty("java.version"),
+                 "Target-JDK": targetCompatibility,
+                 "Built-Gradle": gradle.gradleVersion
+   }
+}
+
+java {
+   withSourcesJar()
+   withJavadocJar()
+}
+
+tasks.spotbugsMain {
+   reports.create("html") {
+      required = true
+      outputLocation = file("${project.layout.buildDirectory.get()}/reports/spotbugs.html")
+      setStylesheet("fancy-hist.xsl")
+   }
+}
+
+jar {
+   configure includeManifest
+}
+
+sourcesJar {
+   configure includeManifest
+}
+
+javadocJar {
+   configure includeManifest
+}
+
+tasks.register("jars") {
+   dependsOn(
+           tasks.jar,
+           tasks.sourcesJar,
+           tasks.javadocJar
+   )
+}
+
+javadoc.options.addStringOption("Xdoclint:none", "-quiet")
+
+publishing {
+   publications {
+      mavenJava(MavenPublication) {
+         from project.components.java
+         artifacts = [ jar, javadocJar, sourcesJar ]
+      }
+   }
+}
+
+compileJava.dependsOn clean
