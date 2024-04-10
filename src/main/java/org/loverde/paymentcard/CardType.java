@@ -45,34 +45,36 @@ import static org.loverde.paymentcard.internal.Objects.failIf;
 /**
  * Defines various payment card types, along with a known list of valid lengths and prefixes, according to
  * <a href="https://en.wikipedia.org/wiki/Payment_card_number">https://en.wikipedia.org/wiki/Payment_card_number</a>
- * as of December, 2016.
+ * as of April 2024.
  */
 public enum CardType {
-    AMERICAN_EXPRESS(prefixesFromRange(
-        new Range(34, 34),
-        new Range(37, 37)),
+    AMERICAN_EXPRESS(
+        prefixesFromRange(
+            new Range(34, 34),
+            new Range(37, 37)),
 
         Set.of(15)
     ),
 
-    VISA(prefixesFromRange(
-        new Range(4, 4)),
-
+    VISA(
+        prefixesFromRange(new Range(4, 4)),
         Set.of(13, 16, 19)
     ),
 
-    MASTERCARD(prefixesFromRange(
-        new Range(51, 55),
-        new Range(2221, 2720)),
+    MASTERCARD(
+        prefixesFromRange(
+            new Range(51, 55),
+            new Range(2221, 2720)),
 
         Set.of(16)
     ),
 
-    DISCOVER(prefixesFromRange(
-        new Range(65, 65),
-        new Range(644, 649),
-        new Range(6011, 6011),
-        new Range(622126, 622925)),
+    DISCOVER(
+        prefixesFromRange(
+            new Range(65, 65),
+            new Range(644, 649),
+            new Range(6011, 6011),
+            new Range(622126, 622925)),
 
         Set.of(16, 19)
     );

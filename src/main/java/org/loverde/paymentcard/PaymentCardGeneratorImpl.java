@@ -60,7 +60,7 @@ import static org.loverde.paymentcard.internal.Objects.randomItemFromSet;
  *
  * <ul>
  *    <li><a href="https://en.wikipedia.org/wiki/Luhn_algorithm">https://en.wikipedia.org/wiki/Luhn_algorithm</a></li>
- *    <li><a href="https://en.wikipedia.org/wiki/Payment_card_number">https://en.wikipedia.org/wiki/Payment_card_number</a> (as of December, 2016)</li>
+ *    <li><a href="https://en.wikipedia.org/wiki/Payment_card_number">https://en.wikipedia.org/wiki/Payment_card_number</a> (as of April 2024)</li>
  * </ul>
  *
  * <p>

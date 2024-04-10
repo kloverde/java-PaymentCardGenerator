@@ -27,10 +27,11 @@ dependencies {
 def includeManifest = {
    manifest {
       attributes "Specification-Title": rootProject.name,
-              "Built-Date": new Date(),
-              "Built-JDK": System.getProperty("java.version"),
-              "Target-JDK": targetCompatibility,
-              "Built-Gradle": gradle.gradleVersion
+                 "Implementation-Version": version,
+                 "Built-Date": new Date(),
+                 "Built-JDK": System.getProperty("java.version"),
+                 "Target-JDK": targetCompatibility,
+                 "Built-Gradle": gradle.gradleVersion
    }
 }
 

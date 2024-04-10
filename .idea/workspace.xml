@@ -5,26 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="133cf98b-e2a8-4df6-9305-f421f0eb6d2b" name="Changes" comment="Refactor all the things">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/internal/Objects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/Blah.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/CardType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/CardType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/PaymentCardGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/PaymentCardGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/PaymentCardGeneratorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/PaymentCardGeneratorImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/Range.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/loverde/paymentcard/Range.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/CardTypeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/CardTypeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/PaymentCardGeneratorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/PaymentCardGeneratorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/RangeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/loverde/paymentcard/RangeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +24,13 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,6 +52,7 @@
   "keyToString": {
     "Gradle.Build java-PaymentCardGenerator.executor": "Run",
     "Gradle.Tests in 'paymentcardgenerator.test'.executor": "Debug",
+    "Gradle.java-PaymentCardGenerator [:Blah.main()].executor": "Run",
     "JUnit.All in paymentcardgenerator.test (1).executor": "Run",
     "JUnit.All in paymentcardgenerator.test.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -73,7 +67,20 @@
       <recent name="org.loverde" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in paymentcardgenerator.test (1)">
+  <component name="RunManager" selected="Application.Blah">
+    <configuration name="Blah" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.loverde.paymentcard.Blah" />
+      <module name="paymentcardgenerator.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.loverde.paymentcard.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Tests in 'paymentcardgenerator.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -127,6 +134,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Blah" />
         <item itemvalue="JUnit.All in paymentcardgenerator.test (1)" />
         <item itemvalue="JUnit.All in paymentcardgenerator.test" />
         <item itemvalue="Gradle.Tests in 'paymentcardgenerator.test'" />
@@ -149,6 +157,15 @@
       <option name="presentableId" value="Default" />
       <updated>1712353545423</updated>
     </task>
+    <task id="LOCAL-00001" summary="Refactor all the things">
+      <option name="closed" value="true" />
+      <created>1712721153328</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712721153328</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
