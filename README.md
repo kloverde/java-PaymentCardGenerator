@@ -22,7 +22,7 @@ Card numbers are generated based on the criteria defined here:
 
 ## Build Tasks
 
-This project is known to build on Gradle 8.0.
+This project is known to build on Gradle 8.4.
 
 | task                | purpose                                      |
 |---------------------|----------------------------------------------|
